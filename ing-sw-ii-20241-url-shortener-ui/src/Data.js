@@ -1,15 +1,7 @@
-const FORM_ENDPOINT = "http://localhost:5000/logic/gates";
-
-const gates = [
-    {label: "OR", value: "or"},
-    {label: "AND", value: "and"},
-    {label: "NOR", value: "nor"},
-    {label: "NAND", value: "nand"},
-    {label: "XOR", value: "xor"}
-]
+const FORM_ENDPOINT = "http://localhost:5000/url/shorten";
 
 function getConfig() {
-    return {FORM_ENDPOINT, gates};
+    return { FORM_ENDPOINT };
 }
 
 export default getConfig;

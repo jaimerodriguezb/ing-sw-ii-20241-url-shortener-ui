@@ -1,44 +1,34 @@
 import { useState } from "react";
 
-function useForm() {
-  const [status, setStatus] = useState('');
-  const [message, setMessage] = useState('');
+const useForm = () => {
+    const [status, setStatus] = useState("");
+    const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus('loading');
-    setMessage('');
+    const handleSubmit = async (event, url) => {
+        event.preventDefault();
+        setStatus("loading");
 
-    const finalFormEndpoint = e.target.action;
-    const data = Array.from(e.target.elements)
-      .filter((input) => input.name)
-      .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
+        try {
+            const response = await fetch(`http://localhost:5000/url/shorten?url=${encodeURIComponent(url)}`, {
+                method: 'GET'
+            });
 
-    fetch(`${finalFormEndpoint}?a=${encodeURIComponent(data.a)}&b=${encodeURIComponent(data.b)}&gate=${encodeURIComponent(data.gate)}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error(response.statusText);
+            const result = await response.json();
+
+            if (response.ok) {
+                setStatus("success");
+                setMessage(result.result);
+            } else {
+                setStatus("error");
+                setMessage(result.error || "Something went wrong");
+            }
+        } catch (error) {
+            setStatus("error");
+            setMessage(error.message || "Something went wrong");
         }
+    };
 
-        return response.json();
-      })
-      .then((response) => {
-        setMessage(`Result: ${response.result}`);
-        setStatus('success');
-      })
-      .catch((err) => {
-        setMessage(err.toString());
-        setStatus('error');
-      });
-  };
-
-  return { handleSubmit, status, message };
-}
+    return { handleSubmit, status, message };
+};
 
 export default useForm;
