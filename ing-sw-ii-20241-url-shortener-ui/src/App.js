@@ -39,7 +39,7 @@ const RedirectToOriginalUrl = () => {
   useEffect(() => {
     const fetchUrl = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/Redireccionar/Short?url=${shortUrl}`);
+        const response = await fetch(`http://localhost:5000/redirect/shortened?url=${shortUrl}`);
         const data = await response.json();
         if (response.ok && data.result) {
           window.location.href = data.result;

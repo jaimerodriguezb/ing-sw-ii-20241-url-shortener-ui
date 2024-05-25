@@ -28,9 +28,9 @@ const Form = () => {
     else if (status === "success" & message !== "No es posible Acortar la URL, tiene riesgos de Pishing") {
         return (
             <>
-                
                 <div className="text-2xl">URL acortada, gracias por usar nuestra app.</div>
-                <div className="text-md">{'Su URL es: http://localhost:3000/'+message}</div>
+                <div className="text-md">{'Su URL es:'}</div>
+                <div className="text-md">{'http://localhost:3000/'+message}</div>
                 <button
                     className="mt-4 px-6 py-2 text-white bg-blue-500 rounded shadow hover:bg-blue-600"
                     onClick={() => window.location.reload()}
